@@ -2,8 +2,8 @@ class Stack<T> {
   dataStore: T[];
   top: number;
 
-  constructor() {
-    this.dataStore = [];
+  constructor(dataStore?: T[]) {
+    this.dataStore = dataStore || [];
     this.top = 0;
   }
 
@@ -14,7 +14,7 @@ class Stack<T> {
 
   // top을 변화시킴, 영구적으로 내보낸다.
   pop() {
-    const topElement = this.dataStore.splice(this.top - 1, 1);
+    const topElement = this.dataStore.splice(this.top - 1, 1)[0];
     this.top = this.top - 1;
     return topElement;
   }
