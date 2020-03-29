@@ -1,5 +1,5 @@
 "use strict";
-var PEZ_CANDY_DISPENSER = [
+const PEZ_CANDY_DISPENSER = [
     "red",
     "white",
     "yellow",
@@ -9,11 +9,11 @@ var PEZ_CANDY_DISPENSER = [
     "red",
     "red"
 ];
-var pezDispenserStack = new Stack(PEZ_CANDY_DISPENSER);
+const pezDispenserStack = new Stack(PEZ_CANDY_DISPENSER);
 function removeCandy(dispenser, candy) {
-    var resultStack = new Stack();
+    const resultStack = new Stack();
     while (dispenser.length() !== 0) {
-        var dispenserItem = dispenser.pop();
+        const dispenserItem = dispenser.pop();
         if (dispenserItem !== "yellow") {
             resultStack.push(dispenserItem);
         }

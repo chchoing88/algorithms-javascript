@@ -1,83 +1,78 @@
 "use strict";
-var List = /** @class */ (function () {
-    function List() {
+class List {
+    constructor() {
         this.listSize = 0;
         this.pos = 0;
         this.dataStore = []; // 리스트 요소를 저장할 빈 배열 초기화
     }
-    Object.defineProperty(List.prototype, "Length", {
-        get: function () {
-            return this.listSize;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    List.prototype.clear = function () {
+    get Length() {
+        return this.listSize;
+    }
+    clear() {
         this.dataStore = [];
         this.listSize = 0;
         this.pos = 0;
-    };
-    List.prototype.findIndex = function (element) {
-        return this.dataStore.findIndex(function (elem) { return elem === element; });
-    };
-    List.prototype.insert = function (newElement, afterElement) {
-        var startAt = this.findIndex(afterElement);
+    }
+    findIndex(element) {
+        return this.dataStore.findIndex(elem => elem === element);
+    }
+    insert(newElement, afterElement) {
+        const startAt = this.findIndex(afterElement);
         if (startAt > -1) {
             this.dataStore.splice(startAt + 1, 0, newElement);
             this.listSize = this.listSize + 1;
             return true;
         }
         return false;
-    };
-    List.prototype.append = function (element) {
+    }
+    append(element) {
         this.dataStore[this.listSize++] = element;
-    };
-    List.prototype.remove = function (element) {
-        var foundAt = this.findIndex(element);
+    }
+    remove(element) {
+        const foundAt = this.findIndex(element);
         if (foundAt > -1) {
             this.dataStore.splice(foundAt, 1);
             this.listSize = this.listSize - 1;
             return true;
         }
         return false;
-    };
-    List.prototype.front = function () {
+    }
+    front() {
         this.pos = 0;
-    };
-    List.prototype.end = function () {
+    }
+    end() {
         this.pos = this.listSize - 1;
-    };
-    List.prototype.prev = function () {
+    }
+    prev() {
         if (this.pos > 0) {
             this.pos = this.pos - 1;
         }
-    };
-    List.prototype.next = function () {
+    }
+    next() {
         if (this.pos < this.listSize - 1) {
             this.pos = this.pos + 1;
         }
-    };
-    List.prototype.currPos = function () {
+    }
+    currPos() {
         return this.pos;
-    };
-    List.prototype.moveTo = function (position) {
+    }
+    moveTo(position) {
         this.pos = position;
-    };
-    List.prototype.getElement = function () {
+    }
+    getElement() {
         return this.dataStore[this.pos];
-    };
+    }
     // 리스트에 특정 element가 있는지 판단.
-    List.prototype.contains = function (element) {
-        return !!this.dataStore.find(function (elem) { return elem === element; });
-    };
+    contains(element) {
+        return !!this.dataStore.find(elem => elem === element);
+    }
     // 현재 리스트의 모든 요소보다 클 때만 삽입하는 함수 (숫자는 큰값, 문자는 알파벳순으로 나중을 의미)
-    List.prototype.isBigElementThanEveryListElement = function (element) {
-        return this.dataStore.every(function (elem) {
+    isBigElementThanEveryListElement(element) {
+        return this.dataStore.every(elem => {
             if (typeof elem === "string" && typeof element === "string") {
                 return element.toLowerCase() > elem.toLowerCase();
             }
             return element > elem;
         });
-    };
-    return List;
-}());
+    }
+}

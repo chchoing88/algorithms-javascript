@@ -1,28 +1,27 @@
 "use strict";
-var Stack = /** @class */ (function () {
-    function Stack(dataStore) {
+class Stack {
+    constructor(dataStore) {
         this.dataStore = dataStore || [];
         this.top = 0;
     }
-    Stack.prototype.push = function (element) {
+    push(element) {
         this.dataStore[this.top] = element;
         this.top = this.top + 1;
-    };
+    }
     // top을 변화시킴, 영구적으로 내보낸다.
-    Stack.prototype.pop = function () {
-        var topElement = this.dataStore.splice(this.top - 1, 1)[0];
+    pop() {
+        const topElement = this.dataStore.splice(this.top - 1, 1)[0];
         this.top = this.top - 1;
         return topElement;
-    };
-    Stack.prototype.peek = function () {
+    }
+    peek() {
         return this.dataStore[this.top - 1];
-    };
-    Stack.prototype.clear = function () {
+    }
+    clear() {
         this.dataStore = [];
         this.top = 0;
-    };
-    Stack.prototype.length = function () {
+    }
+    length() {
         return this.dataStore.length;
-    };
-    return Stack;
-}());
+    }
+}

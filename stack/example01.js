@@ -9,12 +9,12 @@ function mathematicalLint(express) {
     // '(' 를 만나면 stack에 push ')' 를 만나면 스택확인, 쌍이 맞는지 확인, 그후 pop
     // 최종적으로 stack이 비어야 닫는 괄호가 정상이다.
     // 어떻게 괄호가 없는 위치를 알아 낼 수 있을 것인가?
-    var result = true;
-    var verificationStack = new Stack();
-    var splitExpress = express.split("");
-    var length = splitExpress.length;
+    let result = true;
+    const verificationStack = new Stack();
+    const splitExpress = express.split("");
+    const length = splitExpress.length;
     // O(n)
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
         if (splitExpress[i] === "(") {
             verificationStack.push(splitExpress[i]); // 여는 괄호를 만나면 닫는 괄호를 만나야지 pop이 이뤄진다.
         }
