@@ -2,6 +2,10 @@
 class HashTable {
     constructor() {
         this.table = new Array(137);
+        // 충돌처리 - 분리된 체인
+        for (let i = 0; i < this.table.length; i++) {
+            this.table[i] = new Array();
+        }
     }
     simpleHash(data) {
         // 각 문자의 아스키 값의 합을 얻어 해시 값을 계산한다.
@@ -25,15 +29,25 @@ class HashTable {
     // 배열에 실제로 저장된 이름을 출력한다.
     showDistro() {
         this.table
-            .filter(data => {
-            return !!data;
+            .filter((dataList) => {
+            return !!dataList[0];
         })
             .forEach((data, index) => console.log(`${index}: ${data}`));
     }
-    put(data) {
+    put(key, data) {
         // const pos = this.simpleHash(data);
-        const pos = this.betterHash(data);
-        this.table[pos] = data;
+        const pos = this.betterHash(key);
+        // this.table[pos] = data;
+        const tableKeyPoint = this.table[pos];
+        const tableKeyPointLength = tableKeyPoint.length;
+        if (tableKeyPointLength === 0) {
+            tableKeyPoint[0] = data;
+        }
+        else {
+            tableKeyPoint[tableKeyPointLength - 1] = data;
+        }
     }
-    get() { }
+    get(key) {
+        return this.table[this.betterHash(key)];
+    }
 }
