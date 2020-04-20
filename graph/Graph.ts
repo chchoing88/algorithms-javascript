@@ -3,10 +3,12 @@ class Graph {
   edges: number;
   adj: number[][];
   marked: boolean[];
+  edgesTo: number[];
 
   constructor(v: number) {
     this.vertices = v;
     this.edges = 0;
+    this.edgesTo = [];
 
     this.adj = new Array(v);
     for (let i = 0; i < this.adj.length; i++) {
@@ -53,5 +55,84 @@ class Graph {
         this.dfs(w);
       }
     }
+  }
+
+  bfs(s: number) {
+    const queue = [] as number[];
+    this.marked[s] = true;
+    queue.push(s);
+
+    while (queue.length > 0) {
+      const v = queue.shift(); // 큐에서 가져옴
+      if (v !== undefined) {
+        console.log(`Visited vertex: ${v}`);
+
+        for (let w of this.adj[v]) {
+          if (!this.marked[w]) {
+            // 이미 방문하지 않았던 w 정점에 대해서
+            this.edgesTo[w] = v; // 경로를 찾을때 간선 정보를 유지할 배열
+            this.marked[w] = true; // 정점에 도달
+            queue.push(w); // 방문한 정점에서 가장 인접한 레벨의 정점들을 큐에 넣어둔다.
+          }
+        }
+      }
+    }
+  }
+
+  pathTo(v: number) {
+    const source = 0;
+    // 너비 우선 검색을 우선 실행한다.
+    // 간선 정보 수집 및 marked 수집.
+    this.bfs(0);
+
+    if (!this.hasPathTo(v)) {
+      return undefined;
+    }
+
+    const path = [];
+    for (let i = v; i !== source; i = this.edgesTo[i]) {
+      // 여기서 this.edgesTo는 다음과 같다.
+      // const g = new Graph(5)
+      // g.addEdge(0, 1)
+      // g.addEdge(0, 2)
+      // g.addEdge(1, 3)
+      // g.addEdge(2, 4)
+      // 1 - 0, 2 - 0, 3 - 1, 4 - 2 간선 정보
+      path.push(i);
+    }
+    path.push(source);
+    return path;
+  }
+
+  hasPathTo(v: number) {
+    return this.marked[v];
+  }
+
+  topSort() {
+    const stack: number[] = [];
+    const visited = [];
+    for (let i = 0; i < this.vertices; i++) {
+      visited[i] = false;
+    }
+
+    for (let i = 0; i < this.vertices; i++) {
+      if (visited[i] == false) {
+        this.topSortHelper(i, visited, stack);
+      }
+    }
+    let length = stack.length;
+    for (let i = 0; i < length; i++) {
+      console.log(stack.pop());
+    }
+  }
+
+  topSortHelper(v: number, visited: boolean[], stack: number[]) {
+    visited[v] = true;
+    for (var w of this.adj[v]) {
+      if (!visited[w]) {
+        this.topSortHelper(w, visited, stack);
+      }
+    }
+    stack.push(v);
   }
 }
