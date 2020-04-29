@@ -98,12 +98,69 @@ class CArray {
             for (let i = h; i < N; i++) {
                 // 왼쪽 시퀀스 사이즈 만큼 떨어진 값과 비교한다.
                 // 왼쪽에 시퀀스 만큼 떨어진 값이 크다면 바꾸고 다시 왼쪽 시퀀스 만큼 떨어진 값과 비교한다.
-                for (let j = i; j >= h && this.dataStore[j] < this.dataStore[j - h]; j = j - h) {
+                for (let j = i; // 초기 시퀀스 설정
+                 j >= h && this.dataStore[j] < this.dataStore[j - h]; // j 값이 시퀀스 만큼 있고 왼쪽 값이 작다면ㄴ
+                 j = j - h // 시퀀스 만큼 떨어진 왼쪽 값 확인
+                ) {
                     this.swap(this.dataStore, j, j - h);
                 }
             }
             // 다음 시퀀스 구하는 공식
             h = (h - 1) / 3;
+        }
+    }
+    // 가장 먼저 배열을 하나씩 쪼개서 (상향식)
+    // 쪼갠 배열들을 머지 시켜야 합니다.
+    mergeSort() {
+        let step = 1; // 쪼갤 단위
+        // 쪼갤 단위가 dataStore 보다 짧을때 계속 수행
+        while (step < this.dataStore.length) {
+            // 처음 시작 left, right 그룹의 배열의 시작 인덱스
+            let leftStart = 0;
+            let rightStart = step;
+            // left, right 를 step 으로 쌍을 만들 수 있을 때
+            while (rightStart + step <= this.dataStore.length) {
+                this.mergeArray(this.dataStore, leftStart, leftStart + step - 1, rightStart, rightStart + step - 1);
+                // 그다음 leftStart, rightStart
+                leftStart = rightStart + step;
+                rightStart = leftStart + step;
+            }
+            // 나머지 left, right 쌍을 만들 수 없을 때
+            if (rightStart < this.dataStore.length) {
+                this.mergeArray(this.dataStore, leftStart, leftStart + step - 1, rightStart, this.dataStore.length - 1);
+            }
+            step = step * 2;
+        }
+    }
+    // 두 정렬된 그룹의 배열의 각 첫번째 요소를 가지고
+    // 작은수 부터 배치하여 머지합니다.
+    mergeArray(arr, leftStart, leftStop, rightStart, rightStop) {
+        // 임시 배열 복사 생성
+        const tempArray = arr.map((item) => item);
+        let part1 = leftStart;
+        let part2 = rightStart;
+        // 다시 arr에 정렬된것을 할당
+        for (let i = leftStart; i <= rightStop; i++) {
+            if (part2 > rightStop) {
+                // part2 가 rightStop 보다 커진다면 우측 배열은 정렬이 끝난 것이다
+                arr[i] = tempArray[part1];
+                part1++;
+            }
+            else if (part1 > leftStop) {
+                // part1 이 rightStart가 같아지거나 커진다면 왼쪽 배열은 정렬이 끝난 것이다
+                arr[i] = tempArray[part2];
+                part2++;
+            }
+            else {
+                if (tempArray[part1] <= tempArray[part2]) {
+                    arr[i] = tempArray[part1];
+                    part1++;
+                }
+                else {
+                    arr[i] = tempArray[part2];
+                    part2++;
+                }
+            }
         }
     }
 }
