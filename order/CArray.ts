@@ -204,4 +204,46 @@ class CArray {
       }
     }
   }
+
+  // 퀵 정렬
+  // 피벗을 기준으로 왼쪽과 오른쪽을 나눠서 정렬을 시작합니다
+  quickSort() {
+    this.dataStore = this.qSort(this.dataStore);
+  }
+
+  qSort(list: number[]): number[] {
+    // 정렬할 데이터가 없으면 빈 배열을 리턴합니다
+    if (list.length === 0) {
+      return [];
+    }
+
+    if (list.length === 1) {
+      return list;
+    }
+
+    const [lesser, greater, pivot] = this.partition(list);
+    const sortLesser = this.qSort(lesser);
+    const sortGreater = this.qSort(greater);
+
+    return sortLesser.concat(pivot, sortGreater);
+  }
+
+  partition(list: number[]): number[][] {
+    // 물리적으로 가운데 값을 피벗으로 잡는다
+    const pivot = Math.floor((list.length - 1) / 2);
+    const lesser: number[] = [];
+    const greater: number[] = [];
+
+    for (let i = 0; i < list.length; i++) {
+      if (i !== pivot) {
+        if (list[i] < list[pivot]) {
+          lesser.push(list[i]);
+        } else {
+          greater.push(list[i]);
+        }
+      }
+    }
+
+    return [lesser, greater, [list[pivot]]];
+  }
 }
