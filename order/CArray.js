@@ -177,12 +177,9 @@ class CArray {
             return list;
         }
         const [lesser, greater, pivot] = this.partition(list);
-        console.log("lesser", lesser);
-        console.log("greater", greater);
         const sortLesser = this.qSort(lesser);
         const sortGreater = this.qSort(greater);
         return sortLesser.concat(pivot, sortGreater);
-        // return [];
     }
     partition(list) {
         // 물리적으로 가운데 값을 피벗으로 잡는다

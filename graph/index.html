@@ -5,16 +5,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="./Graph.js"></script>
+  <script src="./Graph2.js"></script>
   <script>
 
-    const g = new Graph(5)
-    g.addEdge(0, 1)
-    g.addEdge(0, 2)
-    g.addEdge(1, 3)
-    g.addEdge(2, 4)
-    g.showGraph()
-
+    // const g = new Graph(5)
+    // g.addEdge(0, 1)
+    // g.addEdge(0, 2)
+    // g.addEdge(1, 3)
+    // g.addEdge(2, 4)
+    // g.showGraph()
+    const graph = new Graph2();
+    graph.insertVertex('A');
+    graph.insertVertex('B');
+    graph.insertVertex('C');
+    graph.insertVertex('D');
+    graph.insertVertex('E');
+    graph.insertVertex('F');
+    graph.insertEdge(1, 'A', 'B');
+    graph.insertEdge(1, 'B', 'C');
+    graph.insertEdge(1, 'B', 'E');
+    graph.insertEdge(1, 'C', 'E');
+    graph.insertEdge(1, 'C', 'D');
+    graph.insertEdge(1, 'E', 'D');
+    graph.insertEdge(1, 'E', 'F');
+    graph.deleteVertex('B')
   </script>
 </head>
 
